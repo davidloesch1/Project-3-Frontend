@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ImageBoard from './components/ImageBoard.js'
 import Main from './components/Main'
+import UploadForm from './components/UploadForm'
 // import ImageCard from './components/ImageCard'
 import "./App.css";
 
@@ -8,13 +9,25 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      genre: []
+      genre: [],
+      formModal: false
     };
+  }
+  openModal = () => {
+    this.setState({
+      formModal: true
+    })
+  }
+  closeModal = () => {
+    this.setState({
+      formModal: false
+    })
   }
   render() {
     return (
       <div className="container app-body">
-        <Main />
+        <Main onClick={this.openModal}/>
+        <UploadForm show={this.state.formModal} onHide={this.closeModal}/>
         <ul className="scroll-menu">
           <li>
             <button type="button" className="btn btn-dark">

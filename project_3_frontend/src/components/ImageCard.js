@@ -14,7 +14,6 @@ class ImageCard extends Component {
     };
   }
   componentDidMount() {
-    console.log(this.props.image);
     this.setState({
       title: this.props.image.title,
       image: this.props.image.imgPath
