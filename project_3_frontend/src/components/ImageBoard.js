@@ -12,11 +12,9 @@ class ImageBoard extends Component {
     }
 
     render(){
-        let imgBoard = this.state.images.map(el => {
-            console.log(el)
-            return <ImageCard image={el}/>
+        let imgBoard = this.state.images.map((el, id)=> {
+            return <ImageCard image={el} key={id}/>
         });
-        console.log(imgBoard)
         return(
             <h2>{imgBoard}</h2>
 

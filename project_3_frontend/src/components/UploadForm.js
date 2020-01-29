@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import Modal from "react-bootstrap/Modal";
+import axios from 'axios'
 import "../App.css";
-
-const axios = require("axios");
 
 class UploadForm extends Component {
   constructor(props) {
@@ -10,27 +9,69 @@ class UploadForm extends Component {
     this.state = {
       title: "",
       file: null,
-      imgGenres: []
+      genres: []
     };
   }
+
+//   submitActions = (e) => {
+//       this.onFormSubmit(e)
+//       this.props.onHide
+//   }
   //this submits the form to the database as a post request
   onFormSubmit = (e) => {
       e.preventDefault()
-      const formData = new FormData()
-      formData.append("myImage", this.state.file)
-      const config = {
-          headers: {
-              'content-type': 'multipart/form-data'
+      let photo = this.state.file
+      let formData = new FormData()
+
+      formData.append("title", this.state.title)
+      formData.append("genre", this.state.genre)
+      formData.append("path", photo)
+      
+      
+      // const obj = {
+      //   headers: {
+      //     "Content-Type": "multipart/form-data"
+      //   },
+      //   method: "POST",
+      //   body: {
+      //     title: this.state.title,
+      //     genre: this.state.genres.slice(0),
+      //     path: this.state.file
+      //   }
+      // }
+      // console.log(obj)
+      // const json = JSON.stringify(obj)
+      // const blob = new Blob([json], {
+      //       type: 'application/json'
+      // })
+      // console.log(Blob)
+      // const formData = new FormData()
+      // formData.append("document", obj)
+      // console.log(formData)
+      axios.post("http://localhost:8080/api/images", formData, {
+          onUploadProgress: progressEvent => {
+              console.log('upload progress: ' + (progressEvent.loaded / progressEvent.total * 100 + '%'))
           }
-      }
-      axios.post(URL, formData, config)
+      })
         .then((res) => {
-            res.json(res)
+            // res.json(res)
             console.log(res)
         })
+        .then(() => {
+            this.setState({
+                title: "",
+                file: null,
+                genres: []
+            })
+        })
+
+    
   }
+
+
   //this adds the file to the state
   onChange = (e) => {
+    console.log(e.target.files[0])
     this.setState({file: e.target.files[0]})
   }
   //this changes the state title as the user types it out
@@ -39,7 +80,12 @@ class UploadForm extends Component {
   }
 
   addTags = (e) => {
-    console.log(e.target)
+    let array = this.state.genres.slice(0)
+    let tag = e.target.id
+    !array.includes(tag) ? array.push(tag) : array = array.filter(e => e !==tag)
+    this.setState({
+        genres: array
+    })
   }
   render() {
     return (
@@ -55,10 +101,10 @@ class UploadForm extends Component {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form>
+          <form method="post" encType="multipart/form-data">
             {/* title for modal */}
             <div className="form-group">
-              <label for="title">Title</label>
+              <label htmlFor="title">Title</label>
               <input
                 type="text"
                 className="form-control"
@@ -70,9 +116,10 @@ class UploadForm extends Component {
             </div>
             {/* Select a file */}
             <div className="form-group">
-              <label for="fileUpload">Select file</label>
+              <label htmlFor="fileUpload">Select file</label>
               <input
                 type="file"
+                name="photo"
                 className="form-control-file"
                 id="fileUpload"
                 onChange={this.onChange}
@@ -84,74 +131,74 @@ class UploadForm extends Component {
             <div className="row">
               <div className="col">
                 <div className="custom-control custom-checkbox">
-                  <label className="container" for="sports">
+                  <label className="container" htmlFor="sports">
                     Sports
                     <input type="checkbox" id="sports" onClick={this.addTags}/>
                     <span className="checkmark"></span>
                   </label>
                 </div>
                 <div className="custom-control custom-checkbox">
-                  <label className="container" for="Nature">
+                  <label className="container" htmlFor="nature">
                     Nature
-                    <input type="checkbox" id="Nature" />
+                    <input type="checkbox" id="nature" onClick={this.addTags}/>
                     <span className="checkmark"></span>
                   </label>
                 </div>
-                <div class="custom-control custom-checkbox">
-                  <label className="container" for="Beach">
+                <div className="custom-control custom-checkbox">
+                  <label className="container" htmlFor="beach">
                     Beach
-                    <input type="checkbox" id="Beach" />
+                    <input type="checkbox" id="beach" onClick={this.addTags}/>
                     <span className="checkmark"></span>
                   </label>
                 </div>
                 <div className="custom-control custom-checkbox">
-                  <label className="container" for="Relationships">
+                  <label className="container" htmlFor="relationships">
                     Relationships
-                    <input type="checkbox" id="Relationships" />
+                    <input type="checkbox" id="relationships" onClick={this.addTags}/>
                     <span className="checkmark"></span>
                   </label>
                 </div>
                 <div className="custom-control custom-checkbox">
-                  <label className="container" for="Love">
+                  <label className="container" htmlFor="love">
                     Love
-                    <input type="checkbox" id="Love" />
+                    <input type="checkbox" id="love" onClick={this.addTags}/>
                     <span className="checkmark"></span>
                   </label>
                 </div>
               </div>
               <div className="col">
                 <div className="custom-control custom-checkbox">
-                  <label className="container" for="action">
+                  <label className="container" htmlFor="action">
                     Action
-                    <input type="checkbox" id="action" />
+                    <input type="checkbox" id="action" onClick={this.addTags}/>
                     <span className="checkmark"></span>
                   </label>
                 </div>
                 <div className="custom-control custom-checkbox">
-                  <label className="container" for="Travel">
+                  <label className="container" htmlFor="travel">
                     Travel
-                    <input type="checkbox" id="Travel" />
+                    <input type="checkbox" id="travel" onClick={this.addTags}/>
                     <span className="checkmark"></span>
                   </label>
                 </div>
                 <div className="custom-control custom-checkbox">
-                  <label className="container" for="Art">
+                  <label className="container" htmlFor="art">
                     Art
-                    <input type="checkbox" id="Art" />
+                    <input type="checkbox" id="art" onClick={this.addTags}/>
                     <span className="checkmark"></span>
                   </label>
                 </div>
                 <div className="custom-control custom-checkbox">
-                  <label className="container" for="Photography">
+                  <label className="container" htmlFor="photography">
                     Photography
-                    <input type="checkbox" id="Photography" />
+                    <input type="checkbox" id="photography" onClick={this.addTags}/>
                     <span className="checkmark"></span>
                   </label>
                 </div>
                 <div className="custom-control custom-checkbox">
-                  <label className="container" for="Funny">
+                  <label className="container" htmlFor="funny">
                     Funny
-                    <input type="checkbox" id="Funny" />
+                    <input type="checkbox" id="funny" onClick={this.addTags}/>
                     <span className="checkmark"></span>
                   </label>
                 </div>
@@ -160,7 +207,7 @@ class UploadForm extends Component {
           </form>
         </Modal.Body>
         <Modal.Footer>
-          <button onClick={this.props.onHide}>Share</button>
+          <button onClick={this.onFormSubmit}>Share</button>
         </Modal.Footer>
       </Modal>
     );
