@@ -24,9 +24,9 @@ class UploadForm extends Component {
       let formData = new FormData()
 
       formData.append("title", this.state.title)
-      formData.append("genre", this.state.genre)
+      formData.append("genre", this.state.genres)
       formData.append("path", photo)
-      
+
       
       // const obj = {
       //   headers: {
