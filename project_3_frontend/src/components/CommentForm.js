@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Modal from "react-bootstrap/Modal";
+import Comment from './Comment'
 import axios from "axios";
 import "../App.css";
 
@@ -7,42 +8,90 @@ class CommentForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      commentsId: [],
+      commentsString: [],
       title: "",
       photo: null,
       parent: {},
       subcomments: []
     };
   }
-
-  onFormSubmit = (e) => {
-    e.preventDefault()
-    let comment = {
-        title: this.state.title,
-        photo: this.props.id,
-        parent: this.state.parent,
-        subComments: this.state.subcomments,
-    }
-    console.log(comment)
-    axios
-        .post("http://localhost:8080/api/comments", comment)
-        .then(comment => console.log(comment))
-        .then(() => {
+  componentDidUpdate(prevProps) {
+      console.log("testes")
+    if (prevProps.id !== this.props.id) {
+      axios
+        .get("http://localhost:8080/api/images/" + this.props.id)
+        .then(image => {
             this.setState({
-                title: "",
-                photo: null,
-                parent: {},
-                subComments: []
+                commentsId: image.data.comments
             })
         })
-        this.props.onHide()
+        .then(() => {
+            let commentsId = this.state.commentsId.slice(0)
+            let comments = this.state.commentsString.slice(0)
+            commentsId.map(el => {
+                axios.get("http://localhost:8080/api/comment/" + el)
+                .then(comment => {
+                    comments.push(comment.data.title)
+                    this.setState({
+                        commentsString: comments
+                    })
+                })
+            })
+        })
+        .then(() => {
+            this.render()
+        })
+    }
+  }
+  onFormSubmit = e => {
+    e.preventDefault();
+    let comment = {
+      title: this.state.title,
+      photo: this.props.id,
+      parent: this.state.parent,
+      subComments: this.state.subcomments
+    };
+    console.log(comment);
+    axios
+      .post("http://localhost:8080/api/comment/", comment)
+      .then(comment => console.log(comment))
+      .then(() => {
+        this.setState({
+          title: "",
+          photo: null,
+          parent: {},
+          subComments: [],
+          commentsId: [],
+          commentsString: []
+        });
+      });
+    this.props.onHide();
+  };
+
+  clearOutAndHide = () => {
+    this.setState({
+        title: "",
+        photo: null,
+        parent: {},
+        subComments: [],
+        commentsId: [],
+        commentsString: []
+      });
+      this.props.onHide();
   }
 
-  handleChange = (e) => {
-    this.setState({title: e.target.value})
-  }
 
+  handleChange = e => {
+    this.setState({ title: e.target.value });
+  };
 
   render() {
+      let commentBoard = this.state.commentsString.map((el,id) => {
+          return(
+              <Comment key={id} comment={el} />
+          )
+      })
     return (
       <Modal
         {...this.props}
@@ -50,12 +99,20 @@ class CommentForm extends Component {
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Header closeButton onClick={this.props.onHide}>
-          <Modal.Title id="contained-modal-title-vcenter">
-            Comment
-          </Modal.Title>
+        <Modal.Header closeButton onClick={this.clearOutAndHide}>
+          <Modal.Title id="contained-modal-title-vcenter">Comment</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+
+
+          <div className="comment-container">
+          <h4>Comments</h4>
+          {commentBoard}
+          </div>
+
+
+
+
           <form method="post" encType="multipart/form-data">
             {/* Type area for comment */}
             <div className="form-group">

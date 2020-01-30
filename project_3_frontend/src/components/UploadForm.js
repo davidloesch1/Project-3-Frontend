@@ -44,7 +44,7 @@ class UploadForm extends Component {
           file: null,
           genres: []
         });
-      });
+      })
     this.props.onHide();
   };
 

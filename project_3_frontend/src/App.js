@@ -10,7 +10,8 @@ class App extends Component {
     super(props);
     this.state = {
       genre: [],
-      formModal: false
+      formModal: false,
+      newImage: null
     };
   }
   openModal = () => {
@@ -20,9 +21,16 @@ class App extends Component {
   }
   closeModal = () => {
     this.setState({
-      formModal: false
+      formModal: false,
+      newImage: true
     })
   }
+  resetNewImage = () => {
+    this.setState({
+      newImage: null
+    })
+  }
+
   render() {
     return (
       <div className="container app-body">
@@ -80,7 +88,7 @@ class App extends Component {
             </button>
           </li>
         </ul>
-        <ImageBoard />
+        <ImageBoard render={this.state.newImage} reset={this.resetNewImage}/>
       </div>
     );
   }
