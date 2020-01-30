@@ -40,8 +40,7 @@ class UploadForm extends Component {
                 genres: []
             })
         })
-
-    
+        this.props.onHide()
   }
 
   //this adds the file to the state
