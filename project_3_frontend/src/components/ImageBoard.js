@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from 'axios'
 import ImageCard from "./ImageCard.js"
+import CommentForm from './CommentForm.js'
 import '../App.css'
 
 class ImageBoard extends Component {
@@ -8,9 +9,12 @@ class ImageBoard extends Component {
         super(props)
         let images = require('../images/images')
         this.state = {
-            images: images
+            images: images,
+            commentmodal: false,
+            id: null
         }
     }
+
     componentDidMount(){
         axios
             .get('http://localhost:8080/api/images')
@@ -20,9 +24,10 @@ class ImageBoard extends Component {
                 })
             })
     }
+
     deleteCard = (e) => {
         console.log(e.target.getAttribute("picid"))
-        let id = e.target.getAttribute('picId')
+        let id = e.target.getAttribute('picid')
         axios
             .delete('http://localhost:8080/api/images/' + id)
             .then(image => console.log(image))
@@ -30,19 +35,43 @@ class ImageBoard extends Component {
 
     upVoteCard = (e) => {
         console.log(e.target.getAttribute("picid"))
+        console.log(e.target.getAttribute("votes"))
+        let votes = e.target.getAttribute("votes")
+        let id = e.target.getAttribute('picid')
+        let url = 'http://localhost:8080/api/images/' + id
+        let body = {
+            votes: votes + 1
+        }
+        axios
+            .put(url, body)
+            .then(image => console.log(image))
+
     }
 
-    commentOnCard = (e) => {
+    openCommentModal = (e) => {
         console.log(e.target.getAttribute("picid"))
+        this.setState({
+            commentmodal: true,
+            id: e.target.getAttribute("picid")
+        })
+    }
+
+    closeCommentModal = () => {
+        this.setState({
+            commentmodal: false,
+            id: null
+        })
     }
 
     render(){
         let imgBoard = this.state.images.map((el, id)=> {
-            return <ImageCard image={el} key={id} delete={this.deleteCard} upvote={this.upVoteCard} comment={this.commentOnCard}/>
+            return <ImageCard image={el} key={id} delete={this.deleteCard} upvote={this.upVoteCard} comment={this.openCommentModal} submit={this.closeCommentModal}/>
         });
         return(
-            <h2>{imgBoard}</h2>
-
+            <div>
+                <CommentForm show={this.state.commentmodal} onHide={this.closeCommentModal} {...this.state}/>
+                <h2>{imgBoard}</h2>
+            </div>
         )
     }
 } 

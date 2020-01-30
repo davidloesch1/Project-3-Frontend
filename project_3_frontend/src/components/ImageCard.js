@@ -8,14 +8,14 @@ function ImageCard(props){
         <img src={"http://localhost:8080/" + props.image.path} className="card-img-top" alt={props.image.title} />
         <div className="card-body">
           <h5 className="card-title">{props.image.title}</h5>
-          <p className="card-text">This could be a description of the photo</p>
+          <p className="card-text">{props.image.description}</p>
           <div className="button-container">
             <div>
-              <span className="far fa-comment" onClick={props.comment} picid={props.image._id}></span>
+              <span className="far fa-comment" onClick={props.comment} picid={props.image._id} comments={props.image.comments ? props.image.comments.length : 0}></span>
               <p>{props.image.comments ? props.image.comments.length : 0}</p>
             </div>
             <div>
-              <span className="far fa-arrow-alt-circle-up" onClick={props.upvote} picid={props.image._id}></span>
+              <span className="far fa-arrow-alt-circle-up" onClick={props.upvote} picid={props.image._id} votes={props.image.votes}></span>
               <p>{props.image.votes}</p>
             </div>
           </div>
