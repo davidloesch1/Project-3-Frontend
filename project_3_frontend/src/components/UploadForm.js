@@ -13,41 +13,17 @@ class UploadForm extends Component {
     };
   }
 
-//   submitActions = (e) => {
-//       this.onFormSubmit(e)
-//       this.props.onHide
-//   }
   //this submits the form to the database as a post request
   onFormSubmit = (e) => {
       e.preventDefault()
-      let photo = this.state.file
       let formData = new FormData()
 
       formData.append("title", this.state.title)
-      formData.append("genre", this.state.genres)
-      formData.append("path", photo)
+      for(let i = 0; i < this.state.genres.length; i++) {
+        formData.append("genre[]", this.state.genres[i])
+      }
+      formData.append("path", this.state.file)
 
-      
-      // const obj = {
-      //   headers: {
-      //     "Content-Type": "multipart/form-data"
-      //   },
-      //   method: "POST",
-      //   body: {
-      //     title: this.state.title,
-      //     genre: this.state.genres.slice(0),
-      //     path: this.state.file
-      //   }
-      // }
-      // console.log(obj)
-      // const json = JSON.stringify(obj)
-      // const blob = new Blob([json], {
-      //       type: 'application/json'
-      // })
-      // console.log(Blob)
-      // const formData = new FormData()
-      // formData.append("document", obj)
-      // console.log(formData)
       axios.post("http://localhost:8080/api/images", formData, {
           onUploadProgress: progressEvent => {
               console.log('upload progress: ' + (progressEvent.loaded / progressEvent.total * 100 + '%'))
@@ -68,7 +44,6 @@ class UploadForm extends Component {
     
   }
 
-
   //this adds the file to the state
   onChange = (e) => {
     console.log(e.target.files[0])
@@ -78,7 +53,7 @@ class UploadForm extends Component {
   handleChange = (e) => {
     this.setState({title: e.target.value})
   }
-
+  //this add genres tags to the genre state
   addTags = (e) => {
     let array = this.state.genres.slice(0)
     let tag = e.target.id
