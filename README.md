@@ -7,9 +7,9 @@ PD PhotoApp was built mobile first using bootstrap to help with design and layou
 ## Screen Shots
 ![picture](/images/ss1.png)
 
-![](images/%20screenshot2.png)
+![picture2](images/screenshot2.png)
 
-![](images/screenshot3.png)
+![picture3](images/screenshot3.png)
 
 ## Code Snippits
 
