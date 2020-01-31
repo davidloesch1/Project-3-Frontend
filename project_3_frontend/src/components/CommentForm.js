@@ -24,7 +24,7 @@ class CommentForm extends Component {
     }
     console.log(comment)
     axios
-        .post("http://localhost:8080/api/comments", comment)
+        .post(" https://photoappproject3.herokuapp.com/api/comments", comment)
         .then(comment => console.log(comment))
         .then(() => {
             this.setState({

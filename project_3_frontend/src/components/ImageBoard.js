@@ -17,7 +17,7 @@ class ImageBoard extends Component {
 
     componentDidMount(){
         axios
-            .get('http://localhost:8080/api/images')
+            .get(' https://photoappproject3.herokuapp.com/api/images')
             .then(res => {
                 this.setState({
                     images: res.data
@@ -29,7 +29,7 @@ class ImageBoard extends Component {
         console.log(e.target.getAttribute("picid"))
         let id = e.target.getAttribute('picid')
         axios
-            .delete('http://localhost:8080/api/images/' + id)
+            .delete(' https://photoappproject3.herokuapp.com/api/images/' + id)
             .then(image => console.log(image))
     }
 
@@ -38,7 +38,7 @@ class ImageBoard extends Component {
         console.log(e.target.getAttribute("votes"))
         let votes = e.target.getAttribute("votes")
         let id = e.target.getAttribute('picid')
-        let url = 'http://localhost:8080/api/images/' + id
+        let url = ' https://photoappproject3.herokuapp.com/api/images/' + id
         let body = {
             votes: votes + 1
         }

@@ -5,7 +5,7 @@ function ImageCard(props){
     return (
       <div className="card">
         <span className="fas fa-times delete" onClick={props.delete} picid={props.image._id}></span>
-        <img src={"http://localhost:8080/" + props.image.path} className="card-img-top" alt={props.image.title} />
+        <img src={" https://photoappproject3.herokuapp.com/" + props.image.path} className="card-img-top" alt={props.image.title} />
         <div className="card-body">
           <h5 className="card-title">{props.image.title}</h5>
           <p className="card-text">{props.image.description}</p>

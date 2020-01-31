@@ -26,7 +26,7 @@ class UploadForm extends Component {
     formData.append("path", this.state.file);
 
     axios
-      .post("http://localhost:8080/api/images", formData, {
+      .post(" https://photoappproject3.herokuapp.com/api/images", formData, {
         onUploadProgress: progressEvent => {
           console.log(
             "upload progress: " +
