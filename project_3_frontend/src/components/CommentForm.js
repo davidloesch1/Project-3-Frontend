@@ -17,10 +17,9 @@ class CommentForm extends Component {
     };
   }
   componentDidUpdate(prevProps) {
-      console.log("testes")
     if (prevProps.id !== this.props.id) {
       axios
-        .get("http://localhost:8080/api/images/" + this.props.id)
+        .get("https://photoappproject3.herokuapp.com/api/images/" + this.props.id)
         .then(image => {
             this.setState({
                 commentsId: image.data.comments
@@ -30,7 +29,8 @@ class CommentForm extends Component {
             let commentsId = this.state.commentsId.slice(0)
             let comments = this.state.commentsString.slice(0)
             commentsId.map(el => {
-                axios.get("http://localhost:8080/api/comment/" + el)
+                console.log(el)
+                axios.get("https://photoappproject3.herokuapp.com/api/comment/" + el)
                 .then(comment => {
                     comments.push(comment.data.title)
                     this.setState({
@@ -54,7 +54,7 @@ class CommentForm extends Component {
     };
     console.log(comment);
     axios
-      .post("http://localhost:8080/api/comment/", comment)
+      .post("https://photoappproject3.herokuapp.com/api/comment", comment)
       .then(comment => console.log(comment))
       .then(() => {
         this.setState({
@@ -67,6 +67,7 @@ class CommentForm extends Component {
         });
       });
     this.props.onHide();
+
   };
 
   clearOutAndHide = () => {
