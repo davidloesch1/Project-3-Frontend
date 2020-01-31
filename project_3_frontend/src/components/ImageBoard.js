@@ -25,7 +25,7 @@ class ImageBoard extends Component {
   }
 
   componentDidMount() {
-    axios.get("https://photoappproject3.herokuapp.com/api/images").then(res => {
+    axios.get("http://localhost:8080/api/images").then(res => {
       this.setState({
         images: res.data
       });
@@ -36,7 +36,7 @@ class ImageBoard extends Component {
     console.log(e.target.getAttribute("picid"));
     let id = e.target.getAttribute("picid");
     axios
-      .delete("https://photoappproject3.herokuapp.com/api/images/" + id)
+      .delete("http://localhost:8080/api/images/" + id)
       .then(image => console.log(image))
       .then(() => this.componentDidMount());
   };
@@ -44,7 +44,7 @@ class ImageBoard extends Component {
   upVoteCard = e => {
     console.log(e.target.getAttribute("picid"));
     let id = e.target.getAttribute("picid");
-    let url = "https://photoappproject3.herokuapp.com/api/images/" + id;
+    let url = "http://localhost:8080/api/images/" + id;
     axios
       .put(url)
       .then(image => console.log(image))

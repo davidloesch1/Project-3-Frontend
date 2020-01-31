@@ -8,7 +8,6 @@ class ImageCard extends Component {
   }
 
   render() {
-    console.log(this.props.image.path)
     return (
       <div className="card">
         <span
@@ -17,7 +16,7 @@ class ImageCard extends Component {
           picid={this.props.image._id}
         ></span>
         <img
-          src={"https://photoappproject3.herokuapp.com/" + this.props.image.path}
+          src={"http://localhost:8080/" + this.props.image.path}
           className="card-img-top"
           alt={this.props.image.title}
         />

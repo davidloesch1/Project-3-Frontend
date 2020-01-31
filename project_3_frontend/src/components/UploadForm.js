@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
-import fs from "fs"
 import "../App.css";
 
 class UploadForm extends Component {
@@ -27,7 +26,7 @@ class UploadForm extends Component {
     formData.append("path", this.state.file);
 
     axios
-      .post("https://photoappproject3.herokuapp.com/api/images", formData, {
+      .post("http://localhost:8080/api/images", formData, {
         onUploadProgress: progressEvent => {
           console.log(
             "upload progress: " +
