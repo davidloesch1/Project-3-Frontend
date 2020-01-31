@@ -5,11 +5,11 @@ Pd PhotoApp is a photo sharing app that allows users to upload, comment on, upvo
 PD PhotoApp was built mobile first using bootstrap to help with design and layout.  It renders well on phones as well as desktops and resizes nicely.  The functionality is fairly straitforward making GET, POST, PUT, and DELETE requests to the back end server.
 
 ## Screen Shots
-![](images/screenshot1)
+![](images/screenshot1.png)
 
-![](images/screenshot2)
+![](images/screenshot2.png)
 
-![](images/screenshot3)
+![](images/screenshot3.png)
 
 ## Code Snippits
 
